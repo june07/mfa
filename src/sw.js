@@ -1,6 +1,7 @@
 importScripts(
     './google-analytics.js',
     './scripting.js',
+    './settings.js',
 )
 
 const INSTALL_URL = 'https://june07.com/mfa-install/?utm_source=mfa&utm_medium=chrome_extension&utm_campaign=extension_install&utm_content=1'
@@ -11,9 +12,26 @@ let cache = {
 chrome.runtime.onInstalled.addListener(details => {
     if (details.reason === 'install') {
         chrome.tabs.create({ url: INSTALL_URL })
+        chrome.storage.local.set({
+            'email': `mfa+${generateSecureRandomString(11)}@june07.com`,
+        })
         googleAnalytics.fireEvent('install')
     }
 })
+function generateSecureRandomString(length) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+    const alphabetLength = alphabet.length
+    let randomString = ''
+
+    const randomValues = new Uint8Array(length)
+    crypto.getRandomValues(randomValues)
+
+    for (let i = 0; i < length; i++) {
+        randomString += alphabet[randomValues[i] % alphabetLength]
+    }
+
+    return randomString
+}
 function extractVerificationCode(message) {
     const code = atob(message.payload.parts[0].body.data).split(/\r\n/).map(p => p.replace(/\s*|\,/, '')).filter(p => p).find(code => /\d{6}/.test(code))
     return code
@@ -106,9 +124,8 @@ function injectListener(tabId) {
 }
 async function getAuthTokenNonChrome() {
     const { client_id: clientId, scopes } = await chrome.runtime.getManifest().oauth2
-    const settings = { refresh: true }
 
-    if (settings.refresh) {
+    if (settings.method === 'refreshToken') {
         const { refreshToken, accessToken, tokenExpiry } = await getStoredTokens()
 
         if (accessToken && isTokenValid(tokenExpiry)) {
@@ -246,7 +263,13 @@ async function getAuthToken() {
 }
 async function autofill(tabId, fromEmail, subjectQuery, afterTimestamp) {
     const token = await getAuthToken()
-    const message = await fetchMessageFromGmail(tabId, token, fromEmail, subjectQuery, afterTimestamp)
+    let message
+
+    if (settings.method !== 'mfaPlusEmail') {
+        message = await fetchMessageFromGmail(tabId, token, fromEmail, subjectQuery, afterTimestamp)
+    } else if (settings.method === 'mfaPlusEmail') {
+        // fetch from backend feature to be added so users can just forward to a provided secure random email
+    }
 
     if (!message) return
     // parse the code from the message
