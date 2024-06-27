@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 135.46666 135.46667"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="logo-inkscape.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   inkscape:export-filename="logo.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1"
+     inkscape:cx="207.5"
+     inkscape:cy="242"
+     inkscape:window-width="3840"
+     inkscape:window-height="2089"
+     inkscape:window-x="-8"
+     inkscape:window-y="897"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="132.18655"
+       y="293.15567"
+       width="379.50333"
+       height="353.91885"
+       id="rect236" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="MFA"
+       transform="matrix(0.35389115,0,0,0.58113988,-37.226225,-217.94434)"
+       id="text234"
+       style="font-weight:300;font-size:266.667px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';white-space:pre;shape-inside:url(#rect236);display:inline;fill:#ffd700;stroke-width:0;stroke-linecap:round">
+      <path
+         d="m 141.52081,538.24815 v -93.33309 h 21.73328 l 38.66657,63.4665 h -11.46664 l 37.5999,-63.4665 h 21.73328 l 0.26667,93.33309 h -24.26661 l -0.26667,-56.39985 h 4.13333 l -28.13326,47.19988 H 189.78735 L 160.85409,481.8483 h 5.06666 v 56.39985 z"
+         style="font-weight:800;font-size:133.333px;-inkscape-font-specification:'Montserrat Ultra-Bold'"
+         id="path758" />
+      <path
+         d="m 293.25382,485.84829 h 43.06655 v 20.39995 h -43.06655 z m 1.86666,52.39986 h -26.39993 v -93.33309 h 73.19981 v 20.39995 h -46.79988 z"
+         style="font-weight:800;font-size:133.333px;-inkscape-font-specification:'Montserrat Ultra-Bold'"
+         id="path760" />
+      <path
+         d="m 343.12038,538.24815 41.1999,-93.33309 h 25.99993 l 41.33323,93.33309 h -27.4666 l -32.26658,-80.39979 h 10.39997 l -32.26658,80.39979 z m 22.53328,-18.13328 6.79998,-19.46662 h 45.59989 l 6.79998,19.46662 z"
+         style="fill:#000000"
+         id="path762" />
+    </g>
+  </g>
+</svg>

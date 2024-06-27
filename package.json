@@ -1,0 +1,15 @@
+{
+	"name": "mfa",
+	"version": "1.0.0",
+	"main": "sw.js",
+	"scripts": {
+		"build": "npm run convert-sw && npm run zip",
+		"convert-sw": "node utils/convert-sw-to-background.js",
+		"zip": "node utils/update-manifest-and-zip.js"
+	},
+	"author": "june07 <667@june07.com> (https://june07.com/)",
+	"license": "MIT",
+	"devDependencies": {
+		"archiver": "^7.0.1"
+	}
+}

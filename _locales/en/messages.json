@@ -1,0 +1,14 @@
+{
+	"appName": {
+		"message": "MFA (Multi Factor Authentication Assistant)"
+	},
+	"appShortName": {
+		"message": "MFA"
+	},
+	"appDescription": {
+		"message": "Autofill your MFA codes"
+	},
+	"defaultTitle": {
+		"message": "MFA - Multi Factor Authentication Assistant"
+	}
+}
