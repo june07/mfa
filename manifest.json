@@ -11,7 +11,8 @@
 			"24": "/icon/icon24.png",
 			"32": "/icon/icon32.png"
 		},
-		"default_title": "__MSG_appName__"
+		"default_title": "__MSG_appName__",
+        "default_popup": "/src/popup.html"
 	},
 	"icons": {
 		"16": "/icon/icon16.png",

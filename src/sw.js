@@ -4,6 +4,7 @@ importScripts(
     './settings.js',
 )
 
+const BACKEND_ORIGIN = 'https://black-cell-45d3.inprogress.workers.dev'
 const INSTALL_URL = 'https://june07.com/mfa-install/?utm_source=mfa&utm_medium=chrome_extension&utm_campaign=extension_install&utm_content=1'
 let cache = {
     injected: {}
@@ -13,13 +14,13 @@ chrome.runtime.onInstalled.addListener(details => {
     if (details.reason === 'install') {
         chrome.tabs.create({ url: INSTALL_URL })
         chrome.storage.local.set({
-            'email': `mfa+${generateSecureRandomString(11)}@june07.com`,
+            'mfaPlusEmail': `mfa+${generateSecureRandomString(21)}@june07.com`,
         })
         googleAnalytics.fireEvent('install')
     }
 })
 function generateSecureRandomString(length) {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-_'
     const alphabetLength = alphabet.length
     let randomString = ''
 
@@ -35,6 +36,45 @@ function generateSecureRandomString(length) {
 function extractVerificationCode(message) {
     const code = atob(message.payload.parts[0].body.data).split(/\r\n/).map(p => p.replace(/\s*|\,/, '')).filter(p => p).find(code => /\d{6}/.test(code))
     return code
+}
+async function fetchMessageFromBackend(tabId, toEmail, fromEmail, subjectQuery, afterTimestamp) {
+    const timestamp = cache.injected[tabId]
+    let fullMessage, tries = 1
+
+    async function fetchMessage() {
+        // 
+        const response = await fetch(`${BACKEND_ORIGIN}/api/v1/message`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                toEmail,
+                fromEmail,
+                subjectQuery,
+                afterTimestamp
+            }),
+        }).then(res => res.json())
+
+        if (!response.success) {
+            throw response.error
+        }
+        return response.data
+    }
+
+    while (tries <= 10 && !fullMessage && timestamp === cache.injected[tabId]) {
+        try {
+            fullMessage = await fetchMessage()
+            return fullMessage
+        } catch (error) {
+            console.error('Error fetching message:', error)
+        }
+
+        // Exponential backoff
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, tries) * 1000))
+        tries++
+    }
+    if (timestamp !== cache.injected[tabId]) {
+        console.log('Fetch cancelled because the tab timestamp has changed.')
+    }
 }
 // Function to fetch a message from Gmail based on sender, subject, and timestamp
 async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery, afterTimestamp) {
@@ -262,13 +302,15 @@ async function getAuthToken() {
     }
 }
 async function autofill(tabId, fromEmail, subjectQuery, afterTimestamp) {
-    const token = await getAuthToken()
     let message
 
     if (settings.method !== 'mfaPlusEmail') {
+        const token = await getAuthToken()
         message = await fetchMessageFromGmail(tabId, token, fromEmail, subjectQuery, afterTimestamp)
     } else if (settings.method === 'mfaPlusEmail') {
         // fetch from backend feature to be added so users can just forward to a provided secure random email
+        const { mfaPlusEmail: toEmail } = await chrome.storage.local.get('mfaPlusEmail')
+        message = await fetchMessageFromBackend(tabId, toEmail, fromEmail, subjectQuery, afterTimestamp)
     }
 
     if (!message) return
@@ -293,6 +335,11 @@ chrome.webNavigation.onBeforeNavigate.addListener(details => {
 })
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     switch (message.type) {
+        case 'getSettings': settings.get(settings).then(sendResponse(settings))
+            break
+        case 'updateSetting':
+            await settings.set({ [Object.keys(message.setting)[0]]: Object.values(message.setting)[0] })
+            break
         case 'auth':
             if (sender.tab.url.match('https://account.mongodb.com/account/security/mfa')) {
                 autofill(sender.tab.id, 'mongodb-account@mongodb.com', 'One-time verification code', Math.floor(Date.now() / 1000))
