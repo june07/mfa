@@ -41,7 +41,7 @@ function writeChromeManifest(originalManifest) {
         archive.file(chromeManifestPath, { name: 'manifest.json' })
         archive.directory('./_locales', '_locales')
 
-        console.log(chromeManifestPath)
+        console.log({ chromeManifestPath })
         await archive.finalize()
         fs.rmSync(chromeManifestPath)
     })
@@ -88,7 +88,7 @@ function writeFirefoxManifest(originalManifest) {
         archive.file(firefoxManifestPath, { name: 'manifest.json' })
         archive.directory('./_locales', '_locales')
 
-        console.log(firefoxManifestPath)
+        console.log({ firefoxManifestPath })
         await archive.finalize()
         fs.rmSync(firefoxManifestPath)
     })
