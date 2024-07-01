@@ -42,11 +42,10 @@ jobs:
               uses: actions/cache@v4
               id: build-cache
               with:
-                  path: |
-                      package.json
-                      MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip
-                      MFA_(Multi_Factor_Authentication_Assistant)-firefox-${{ env.VERSION }}.zip
-                  key: cache-build-${{ github.sha }}
+                path: |
+                  package.json
+                  MFA_(Multi_Factor_Authentication_Assistant)-*-${{ env.VERSION }}.zip
+                key: cache-build-${{ github.sha }}
 
     deploy-edge:
         needs: build
