@@ -47,6 +47,12 @@ jobs:
                   **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
 
+            - name: Upload zip artifact
+              uses: actions/upload-artifact@v4
+              with:
+                path: |
+                  **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
+
     deploy-edge:
         needs: build
         runs-on: ubuntu-latest
