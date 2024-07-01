@@ -35,21 +35,17 @@ jobs:
                 npm run build --if-present
                 ls -la
 
-
-            - name: Set zip name
-              run: |
-                version=$(node -p "require('./package.json').version")
-                ZIP_NAME=$(echo "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${version}.zip")
-                echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
-                echo "env.ZIP_NAME: ${{ env.ZIP_NAME }}, version: ${version}"
+            - name: Set version
+              run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
             - name: Cache build files
               uses: actions/cache@v4
               id: build-cache
               with:
                   path: |
-                      MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.version }}.zip
-                      MFA_(Multi_Factor_Authentication_Assistant)-firefox-${{ env.version }}.zip
+                      package.json
+                      MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip
+                      MFA_(Multi_Factor_Authentication_Assistant)-firefox-${{ env.VERSION }}.zip
                   key: cache-build-${{ github.sha }}
 
     deploy-edge:
@@ -58,17 +54,17 @@ jobs:
 
         if: startsWith(github.ref, 'refs/tags/')
         steps:
-            - name: Set zip name
-              run: |
-                version=$(node -p "require('./package.json').version")
-                echo "ZIP_NAME=$(echo "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.version }}.zip")" >> $GITHUB_ENV
-
             - name: Restore cache build files
               uses: actions/cache@v4
               id: build-cache
               with:
-                path: ${{ env.ZIP_NAME }}
+                path: |
+                  package.json
+                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
                 key: cache-build-${{ github.sha }}
+
+            - name: Set version
+              run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
             - name: Publish using Microsoft Partner Center Publish API
               run: |
@@ -92,7 +88,7 @@ jobs:
                   response=$(curl -s -i -D /tmp/headers -w 'status: %{response_code}\n' -X POST https://api.addons.microsoftedge.microsoft.com/v1/products/${{ vars.MPC_PRODUCT_ID }}/submissions/draft/package \
                     -H "Authorization: Bearer $token" \
                     -H 'Content-Type: application/zip' \
-                    -T ${{ env.ZIP_NAME }})
+                    -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip)
                   if [ -n "$(echo $response | egrep "status:\s*202")" ]; then
                     operationID=$(cat /tmp/headers | egrep -i "location:\s*" | cut -f2 -d":" | awk '{$1=$1};1' | tr -d '\r')
                     # Checking the status of a package upload
@@ -147,15 +143,17 @@ jobs:
 
         if: startsWith(github.ref, 'refs/tags/')
         steps:
-            - name: Download package
-              uses: actions/download-artifact@v4
+            - name: Restore cache build files
+              uses: actions/cache@v4
+              id: build-cache
               with:
-                  path: '/tmp'
+                path: |
+                  package.json
+                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
+                key: cache-build-${{ github.sha }}
 
-            - name: Set zip name
-              run: |
-                version=$(node -p "require('./package.json').version")
-                echo "ZIP_NAME=$(echo "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.version }}.zip")" >> $GITHUB_ENV
+            - name: Set version
+              run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
             - name: Publish to Google Web Store (V2)
               run: |
@@ -163,7 +161,7 @@ jobs:
                   WEBSTORE_API_URL="https://www.googleapis.com/upload/chromewebstore/v1.1/items/${{vars.GOOGLE_APP_ID}}"
                   ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${{ vars.GOOGLE_CLIENT_ID }}&client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}&refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
 
-                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T ${{ env.ZIP_NAME }} -v "${WEBSTORE_API_URL}"
+                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip -v "${WEBSTORE_API_URL}"
                   curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "${WEBSTORE_API_URL}/publish"
               shell: bash
             - name: Publish to Google Web Store (V3)
@@ -172,7 +170,7 @@ jobs:
                   WEBSTORE_API_URL="https://www.googleapis.com/upload/chromewebstore/v1.1/items/${{vars.GOOGLE_APP_ID}}"
                   ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${{ vars.GOOGLE_CLIENT_ID }}&client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}&refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
 
-                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T ${{ env.ZIP_NAME }} -v "${WEBSTORE_API_URL}"
+                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip -v "${WEBSTORE_API_URL}"
                   curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "${WEBSTORE_API_URL}/publish"
               shell: bash
 
@@ -180,18 +178,21 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - name: Download package
-              uses: actions/download-artifact@v4
+            - name: Restore cache build files
+              uses: actions/cache@v4
+              id: build-cache
               with:
-                  path: '/tmp'
+                path: |
+                  package.json
+                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
+                key: cache-build-${{ github.sha }}
 
-            - name: Set zip name
-              run: |
-                version=$(node -p "require('./package.json').version")
-                echo "ZIP_NAME=$(echo "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.version }}")" >> $GITHUB_ENV
+            - name: Set version
+              run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
             - name: Release
               uses: softprops/action-gh-release@v2
               if: startsWith(github.ref, 'refs/tags/')
               with:
-                files: '${{ env.ZIP_NAME }}'
+                files: |
+                  MFA_(Multi_Factor_Authentication_Assistant)-*-${{ env.VERSION }}.zip
