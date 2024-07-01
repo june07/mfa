@@ -46,7 +46,6 @@ jobs:
                   package.json
                   **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
-                fail-on-cache-miss: true
 
     deploy-edge:
         needs: build
@@ -62,6 +61,7 @@ jobs:
                   package.json
                   **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
+                fail-on-cache-miss: true
 
             - name: Set version
               run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
@@ -151,6 +151,7 @@ jobs:
                   package.json
                   **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
+                fail-on-cache-miss: true
 
             - name: Set version
               run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
@@ -186,6 +187,7 @@ jobs:
                   package.json
                   **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
+                fail-on-cache-miss: true
 
             - name: Set version
               run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
