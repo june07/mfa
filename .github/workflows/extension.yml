@@ -44,7 +44,7 @@ jobs:
               with:
                 path: |
                   package.json
-                  MFA_(Multi_Factor_Authentication_Assistant)-*-${{ env.VERSION }}.zip
+                  **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
                 fail-on-cache-miss: true
 
@@ -60,7 +60,7 @@ jobs:
               with:
                 path: |
                   package.json
-                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
+                  **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
 
             - name: Set version
@@ -149,7 +149,7 @@ jobs:
               with:
                 path: |
                   package.json
-                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
+                  **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
 
             - name: Set version
@@ -184,7 +184,7 @@ jobs:
               with:
                 path: |
                   package.json
-                  MFA_(Multi_Factor_Authentication_Assistant)-*.zip
+                  **/MFA_(Multi_Factor_Authentication_Assistant)*.zip
                 key: ${{ runner.os }}-build
 
             - name: Set version
