@@ -93,7 +93,7 @@ jobs:
                   response=$(curl -s -i -D /tmp/headers -w 'status: %{response_code}\n' -X POST https://api.addons.microsoftedge.microsoft.com/v1/products/${{ vars.MPC_PRODUCT_ID }}/submissions/draft/package \
                     -H "Authorization: Bearer $token" \
                     -H 'Content-Type: application/zip' \
-                    -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip)
+                    -T "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip")
                   if [ -n "$(echo $response | egrep "status:\s*202")" ]; then
                     operationID=$(cat /tmp/headers | egrep -i "location:\s*" | cut -f2 -d":" | awk '{$1=$1};1' | tr -d '\r')
                     # Checking the status of a package upload
@@ -166,7 +166,7 @@ jobs:
                   WEBSTORE_API_URL="https://www.googleapis.com/upload/chromewebstore/v1.1/items/${{vars.GOOGLE_APP_ID}}"
                   ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${{ vars.GOOGLE_CLIENT_ID }}&client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}&refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
 
-                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip -v "${WEBSTORE_API_URL}"
+                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip" -v "${WEBSTORE_API_URL}"
                   curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "${WEBSTORE_API_URL}/publish"
               shell: bash
             - name: Publish to Google Web Store (V3)
@@ -175,7 +175,7 @@ jobs:
                   WEBSTORE_API_URL="https://www.googleapis.com/upload/chromewebstore/v1.1/items/${{vars.GOOGLE_APP_ID}}"
                   ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${{ vars.GOOGLE_CLIENT_ID }}&client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}&refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
 
-                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip -v "${WEBSTORE_API_URL}"
+                  curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "MFA_(Multi_Factor_Authentication_Assistant)-chrome-${{ env.VERSION }}.zip" -v "${WEBSTORE_API_URL}"
                   curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "${WEBSTORE_API_URL}/publish"
               shell: bash
 
