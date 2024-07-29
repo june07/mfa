@@ -82,7 +82,7 @@ async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery
 
     async function fetchMessages() {
         const url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=from:${fromEmail} subject:${subjectQuery} after:${afterTimestamp}&maxResults=1`
-        const response = await fetch(url, {
+        let response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`, // Replace with your access token
             },
@@ -92,11 +92,12 @@ async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery
             throw new Error('Network response was not ok ' + response.statusText)
         }
 
-        return await response.json()
+        response = await response.json()
+        return response
     }
     async function fetchMessageDetails(messageId) {
         const url = `https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}`
-        const response = await fetch(url, {
+        let response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`, // Replace with your access token
             },
@@ -106,7 +107,8 @@ async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery
             throw new Error('Network response was not ok ' + response.statusText)
         }
 
-        return await response.json()
+        response = response.json()
+        return response
     }
     async function checkMessages() {
         try {
@@ -342,7 +344,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             break
         case 'auth':
             if (sender.tab.url.match('https://account.mongodb.com/account/security/mfa')) {
-                autofill(sender.tab.id, 'mongodb-account@mongodb.com', 'One-time verification code', Math.floor(Date.now() / 1000))
+                autofill(sender.tab.id, 'mongodb-account@mongodb.com', 'One-time verification code', Math.floor((Date.now() / 1000) - 30))
                 const window = (await chrome.windows.getAll({
                     windowTypes: ['popup'],
                     populate: true
