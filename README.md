@@ -51,7 +51,7 @@ This extension was born out of the need to enhance productivity during developme
 
 ## Getting Started
 
-1. **Install the Extension:** [Download from Chrome Web Store](https://chromewebstore.google.com/detail/mfa-multi-factor-authenti/jlbompidiohdlmfegemphbamnglbpajj?ref=blog.june07.com), [Edge-Addons](link), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/mfa/?ref=blog.june07.com), or [GitHub Releases](https://github.com/june07/mfa/releases).
+1. **Install the Extension:** [Download from Chrome Web Store](https://chromewebstore.google.com/detail/mfa-multi-factor-authenti/jlbompidiohdlmfegemphbamnglbpajj?ref=blog.june07.com), [Edge-Addons](https://microsoftedge.microsoft.com/addons/detail/mfa-multi-factor-authent/ienbackjagmcjnbjihogbjikdigpejml), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/mfa/?ref=blog.june07.com), or [GitHub Releases](https://github.com/june07/mfa/releases).
    
 2. **Configure Email Forwarding (Optional):** Set up forwarding to enhance security.
    
