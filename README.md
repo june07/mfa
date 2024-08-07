@@ -1,3 +1,19 @@
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/chrome-web-store/v/jlbompidiohdlmfegemphbamnglbpajj.svg)](https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj)
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/chrome-web-store/users/jlbompidiohdlmfegemphbamnglbpajj.svg)](https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj)
+<!--
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/chrome-web-store/rating/jlbompidiohdlmfegemphbamnglbpajj.svg)](https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj)
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/chrome-web-store/stars/jlbompidiohdlmfegemphbamnglbpajj.svg)](https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj)
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/chrome-web-store/rating-count/jlbompidiohdlmfegemphbamnglbpajj.svg)](https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj)
+-->
+
+[![https://chromewebstore.google.com/detail/nodejs-v8-inspector-manag/jlbompidiohdlmfegemphbamnglbpajj](https://img.shields.io/badge/dynamic/json?label=microsoft%20edge%20add-on&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fienbackjagmcjnbjihogbjikdigpejml)](https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml)
+[![https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml](https://img.shields.io/badge/dynamic/json?label=users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fienbackjagmcjnbjihogbjikdigpejml)](https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml)
+[![https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml](https://img.shields.io/badge/dynamic/json?label=rating&query=%24.averageRating&suffix=%2F5&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fienbackjagmcjnbjihogbjikdigpejml)](https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml)
+[![https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml](https://img.shields.io/badge/dynamic/json?label=ratings&query=%24.ratingCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fienbackjagmcjnbjihogbjikdigpejml)](https://microsoftedge.microsoft.com/addons/detail/ienbackjagmcjnbjihogbjikdigpejml)
+
+[![https://addons.mozilla.org/en-US/firefox/addon/mfa](https://img.shields.io/amo/v/mfa.svg)](https://addons.mozilla.org/en-US/firefox/addon/mfa)
+[![https://addons.mozilla.org/en-US/firefox/addon/mfa](https://img.shields.io/amo/users/mfa.svg)](https://addons.mozilla.org/en-US/firefox/addon/mfa)
+
 ![](https://raw.githubusercontent.com/june07/ghost-content/main/2024/06/screenshot-1.webp)
 
 # MFA (Multi-Factor Authentication Assistant) Browser Extension
