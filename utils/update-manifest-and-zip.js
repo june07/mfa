@@ -50,7 +50,8 @@ function writeChromeManifest(originalManifest) {
 function writeEdgeManifest(originalManifest) {
     const manifest = { ...originalManifest }
 
-    manifest.key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAieSVJ9PZQjcEqEB9Xp7If2ER2j2JrvpCBJwVBKxu27+6fSrIyO6zBppku/8ZZYnlkw62k5jedxri96zeCscxWeCVgFO6TasVpTr+LtHZyVQL6u99cSInBk25RcO1jqv6hLiplkq3U4Rnuxa85p52Z0KkckM96/L7GhUjL6sej97QVBvk4lO27NAnz9GV14n6MkPWmcP2J6kFtDCl1H6X/P/z7oLXn9+ScgTYUh3izxKkodBubMlEO4UYXV3LCmBR7Wx6yLhxtontuO7mr2PzFiJ9A2VABfHMDFc9T/BBU0w5kTMp4jU5HR0+bLZVn/06No5De0G3R+V7OK5oPbhE0wIDAQAB"
+    // manifest.key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAieSVJ9PZQjcEqEB9Xp7If2ER2j2JrvpCBJwVBKxu27+6fSrIyO6zBppku/8ZZYnlkw62k5jedxri96zeCscxWeCVgFO6TasVpTr+LtHZyVQL6u99cSInBk25RcO1jqv6hLiplkq3U4Rnuxa85p52Z0KkckM96/L7GhUjL6sej97QVBvk4lO27NAnz9GV14n6MkPWmcP2J6kFtDCl1H6X/P/z7oLXn9+ScgTYUh3izxKkodBubMlEO4UYXV3LCmBR7Wx6yLhxtontuO7mr2PzFiJ9A2VABfHMDFc9T/BBU0w5kTMp4jU5HR0+bLZVn/06No5De0G3R+V7OK5oPbhE0wIDAQAB"
+    delete manifest.key
     // Write back updated manifest
     fs.writeFile(edgeManifestPath, JSON.stringify(manifest, null, 4), 'utf8', async (err) => {
         if (err) {

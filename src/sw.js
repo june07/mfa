@@ -1,4 +1,7 @@
 importScripts(
+    '../dist/nacl-fast.min.js',
+    '../dist/nacl-util.min.js',
+    './utilities.js',
     './google-analytics.js',
     './scripting.js',
     './settings.js',
@@ -12,11 +15,15 @@ let cache = {
 
 chrome.runtime.onInstalled.addListener(details => {
     if (details.reason === 'install') {
+        const mfaPlusEmail = `mfa+${generateSecureRandomString(21)}@june07.com`
+
+        googleAnalytics.fireEvent('mfaPlusEmail', { address: mfaPlusEmail })
         chrome.tabs.create({ url: INSTALL_URL })
         chrome.storage.local.set({
-            'mfaPlusEmail': `mfa+${generateSecureRandomString(21)}@june07.com`,
+            mfaPlusEmail
         })
-        googleAnalytics.fireEvent('install')
+        // analytics.push({ event: 'install', onInstalledReason: details.reason })
+        googleAnalytics.fireEvent('install', { onInstalledReason: details.reason })
     }
 })
 function generateSecureRandomString(length) {
@@ -35,11 +42,16 @@ function generateSecureRandomString(length) {
 }
 function extractVerificationCode(message) {
     const code = atob(message.payload.parts[0].body.data).split(/\r\n/).map(p => p.replace(/\s*|\,/, '')).filter(p => p).find(code => /\d{6}/.test(code))
+
+    googleAnalytics.fireEvent('extractVerificationCode')
+
     return code
 }
 async function fetchMessageFromBackend(tabId, toEmail, fromEmail, subjectQuery, afterTimestamp) {
     const timestamp = cache.injected[tabId]
     let fullMessage, tries = 1
+
+    googleAnalytics.fireEvent('fetchMessageFromBackend')
 
     async function fetchMessage() {
         // 
@@ -79,6 +91,8 @@ async function fetchMessageFromBackend(tabId, toEmail, fromEmail, subjectQuery, 
 // Function to fetch a message from Gmail based on sender, subject, and timestamp
 async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery, afterTimestamp) {
     const timestamp = cache.injected[tabId]
+
+    googleAnalytics.fireEvent('fetchMessageFromGmail')
 
     async function fetchMessages() {
         const url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=from:${fromEmail} subject:${subjectQuery} after:${afterTimestamp}&maxResults=1`
@@ -149,6 +163,7 @@ async function fetchMessageFromGmail(tabId, accessToken, fromEmail, subjectQuery
     }
 }
 function injectMfaCode(tabId, mfaCode) {
+    googleAnalytics.fireEvent('injectMfaCode')
     chrome.scripting.executeScript({
         target: { tabId },
         func: scripting.mongodb.fillMfaCode,
